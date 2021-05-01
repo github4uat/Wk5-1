@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<!--file creator: Trevor Satrom
+    email:tjsatrom@gmail.com
+    for CSC102 Class Sp2021Online
+    Week5-2-->
+
+<html>
+
+<head>
+    <!--none of this appears in the body of the page-->
+    <script src="dataLoader-1.js"></script>
+    <script src="code.js"></script>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <title>
+        Trevor's UATSpace Page
+    </title>
+
+</head>
+
+<body>
+    <!--needed for DOM-->
+    <script>
+        var theTime  = new Date();
+        var tempTime = new Date();
+        var time_interval = 5000; 
+        var last_iteration = 0;
+        //this is boolean, it's either true or false
+        var running = true;
+        var index = 0;
+        var timer;
+        
+        //to get the data from dataLoader-1.js
+        var data = getData();
+
+        //this is going to fill in the table
+        function updateDisplay(){
+            //this'll grab the Current time/Date
+            theTime = new Date();
+            //this is where we tell 
+            var timeRead = data[index].time_seconds;
+            //if the time is greater than or equal to 10, 
+            if(timeRead >= 10){
+                //data[index].time_seconds is where we get the data from the table.
+                document.getElementById("data").rows["seconds"].innerHTML = dataRow("Time Elapsed", data[index].time_seconds, "seconds");
+                //we don't have units for the rest of these, so instead of "seconds"  just use " ".
+                document.getElementById("data").rows["latitude"].innerHTML = dataRow("Latitude", data[index].latitude, " ");
+                document.getElementById("data").rows["longitude"].innerHTML = dataRow("Longitude", data[index].longitude , " ");
+                document.getElementById("data").rows["gps_altitude"].innerHTML = dataRow("GPS altitude", data[index].gps_altitude, " ");
+                document.getElementById("data").rows["bmpSensor_altitude"].innerHTML = dataRow("BMP Sensor altitude", data[index].bmpSensor_altitude, " ");
+                document.getElementById("data").rows["bmpSensor_pressure"].innerHTML = dataRow("BMP Sensor pressure", data[index].bmpSensor_pressure, " ");
+                document.getElementById("data").rows["bmpSensor_temp"].innerHTML = dataRow("BMP Sensor temperature", data[index].bmpSensor_temp, " ");
+                document.getElementById("data").rows["digSensor_temp"].innerHTML = dataRow("Digital Sensor temperature", data[index].digSensor_temp, " ");
+                document.getElementById("data").rows["cssSensor_temp"].innerHTML = dataRow("CSS Sensor temp", data[index].cssSensor_temp, " ");
+                document.getElementById("data").rows["cssSensor_eC02"].innerHTML = dataRow("CSS Sensor eC02", data[index].cssSensor_eC02, " ");
+                document.getElementById("data").rows["cssSensor_TVOC"].innerHTML = dataRow("CSS Sensor TVOC", data[index].cssSensor_TVOC, " ");
+                document.getElementById("data").rows["UV"].innerHTML = dataRow("UV", data[index].UV, " ");
+                document.getElementById("data").rows["accelX"].innerHTML = dataRow("Accel X", data[index].accelX, " ");
+                document.getElementById("data").rows["accelY"].innerHTML = dataRow("Accel Y", data[index].accelY, " ");
+                document.getElementById("data").rows["accelZ"].innerHTML = dataRow("Accel Z", data[index].accelZ, " ");
+                document.getElementById("data").rows["magneticX"].innerHTML = dataRow("Magnetic X", data[index].magneticX, " ");
+                document.getElementById("data").rows["magneticY"].innerHTML = dataRow("Magnetic Y", data[index].magneticY, " ");
+                document.getElementById("data").rows["magneticZ"].innerHTML = dataRow("Magnetic Z", data[index].magneticZ, " ");
+                document.getElementById("data").rows["gyroX"].innerHTML = dataRow("Gyro X", data[index].gyroX, " ");
+                document.getElementById("data").rows["gyroY"].innerHTML = dataRow("Gyro Y", data[index].gyroY, " ");
+                document.getElementById("data").rows["gyroZ"].innerHTML = dataRow("Gyro Z", data[index].gyroZ, " ");
+             }
+
+             if(index < 500){
+                index++;
+             }else{
+                index = 0;
+             }
+             
+        }
+
+    </script>
+    <!--needed for dom-->
+    <!--a table to put the h1 and pic on the same line-->
+    <table>
+        <td><!--This is the body, img src is linking to a file.jpg so the computer knows where to look.-->
+            <img src="myUATlogo.jpg"><td><!--This is a picture encapsulated by data.
+                The h1 denotes text size and boldness.  H1 is the biggest and boldest and it goes down from 
+                there to h2, h3, etc.  The white text denotes text as it appears on the webpage. -->
+                <!--this is the big bold text at the top of the webpage-->
+                <h1>UAT Space Program</h1></td>
+    </table>
+
+    <!--this table is the Data Type and Reading table with all of the Accel, Magnetic, Gyro, Etc. info-->
+    <!--the table border command adds 2 lines around the text-->
+    <!--the width=70% tells the program to run the border at 70% of the screen-->
+    <table border="2" id="data" width="70%" class="mainTable">
+        <!--width 35% tells the text to take up the same amount of space in each of the different rows -->
+        <col style="width: 35%;">
+        <col style="width: 35%;">
+        <!--thead= table header, it's larger, bolder font at the top of the table-->
+        <thead>
+            <!--adding font-family: fantasy darkens the text at the top of the header-->
+            <tr style= "font-family: fantasy">
+                <!--align left tells text to line up at left side of box/field-->
+                <th align="left">Data Type</th>
+                <th align="left">Reading</th>
+            </tr>
+        <!--this is the end of the table header-->
+        </thead>
+        
+        <!--this is the beginning of the table body-->
+        <tbody>
+            <!--for Wk5-1, get rid of td's, and keep tr's-->
+            <tr id="seconds"></tr>
+            <tr id="latitude"></tr>
+            <tr id="longitude"></tr>
+            <tr id="gps_altitude"></tr>
+            <tr id="bmpSensor_altitude"></tr>
+            <tr id="bmpSensor_pressure"></tr>
+            <tr id="bmpSensor_temp"></tr>
+            <tr id="digSensor_temp"></tr>
+            <tr id="cssSensor_temp"></tr>
+            <tr id="cssSensor_eC02"></tr>         
+            <tr id="cssSensor_TVOC"></tr> 
+            <tr id="UV"></tr>
+            <tr id="accelX"></tr>
+            <tr id="accelY"></tr>
+            <tr id="accelZ"></tr>
+            <tr id="magneticX"></tr>
+            <tr id="magneticY"></tr>
+            <tr id="magneticZ"></tr>
+            <tr id="gyroX"></tr>
+            <tr id="gyroY"></tr>
+            <tr id="gyroZ"></tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <!--this creates a start/stop button-->
+    <!--Start runs start onclick, stop runs stop onclick-->
+    <button class="button" id="startButton" onclick="start();">Start</button> 
+    <button id="stopButton" class="button" onclick="stop();">Stop</button>
+    <br>
+    <br>
+    <!--this is where you make the Play Sounds Buttons-->
+    <!--playStation refers to the background sounds heard at the launch station-->
+    <button class="button" onclick="playStation()"; >Play Sound </button><br>
+
+    <!--this is where you make the button to play ELEVATOR-->
+    <button class="button" onclick="playELEVATOR()"; >Play ELEVATOR </button><br>
+
+    <!--this shows the results of the craps game/round-->
+    <h3 id= "crapsResults">Result of the Craps Round</h3>
+    <br>
+    <!--this says that die1 needs to be rolled-->
+    Die1 is: <div id="die1Res">needs to be rolled</div><br>
+    <!--this says that die2 needs to be rolled-->
+    Die2 is: <div id="die2Res">needs to be rolled</div><br>
+    <!--this says The Sum of Die1 + Die2 is: 
+    needs to be rolled-->
+    Sum of Die1 + Die2 is: <div id="sumRes">needs to be rolled</div><br>
+    <!--this button has been enlarged to fit the text properly.  It looks funky when
+    the text is spilling over the button.  The button says"Play Craps Here"-->
+    <button class ="lgButton" onclick="playCraps();">Play Craps Here!</button>
+    <br>
+    <!--this is a br for break, or carriage return?  character return?  it makes a space-->
+    <br>
+    <br>
+    <!--this is where we create the text above the "Try It" button that says "Sandbox Display"-->
+    <div id="sandboxDisplay">Sandbox Display</div>
+    <br>
+    <!--this where we create a "Try It" button below the Sandbox Display text.  Once someone
+    clicks "Try It" It counts down from 10 to 0 and then says Blastoff!-->
+    <button class="sandButton" onclick="runSandbox();">Try it!</button>
+
+</body>
+<!--this is the end of the page-->
+
+</html>
+
+
+</body>
+
+<!--NOTES TO SELF!   
+Don't forget to add comments to most of the lines of code,.js and .html
+Don't to get the sound to work and get your comments back from word.
+Don't forget to turn in screenshots of the program running 
+Don't forget to UPLOAD via zipped files GITHUB
+Don't forget to turn in Notes and Extra Credit at Same time as Assignment-->
+<!--this is the end of the script for the countdown i-->
